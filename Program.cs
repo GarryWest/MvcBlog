@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcBlogContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBlogContext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
 
+// Demo Git Azure Boards Integration with this comment
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
