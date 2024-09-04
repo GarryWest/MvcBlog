@@ -4,9 +4,48 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div class="container-fluid">
+    <a asp-action="Create">Create New</a>
+</div>
+<div class="container pt-5">
+    @foreach (var item in Model)
+    {
+        <div class="row">
+            <div class="col-12">
+            @Html.Raw($"<img src='{@Url.Content("~/Images/" + item.Image)}' height='120px' width='120px' >")
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 ">
+                @Html.DisplayFor(modelItem => item.Title)
+            </div>
+        </div>
+        @* <div class="row">
+            <div class="col-12">
+                @Html.DisplayFor(modelItem => item.Author)
+            </div>
+        </div> *@
+        <div class="row">
+            <div class="col-12">
+                @Html.DisplayFor(modelItem => item.CreateDate)
+            </div>
+        </div>
+        <div class="row my-2">
+            <div class="col-12">
+                @Html.Raw(item.Content)
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </div>
+        </div>
+    }
+</div>
 
-<p>
+@* <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
@@ -57,3 +96,4 @@
 }
     </tbody>
 </table>
+ *@
