@@ -15,5 +15,8 @@ namespace MvcBlog.Models
         public string? Title { get; set; }
         public string? Content { get; set; }
         public string? Image { get; set; }
+
+        public List<BlogPostTag>? Tags { get; set; }
+
     }
 }

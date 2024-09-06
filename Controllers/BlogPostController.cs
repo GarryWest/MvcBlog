@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,41 @@ namespace MvcBlog.Controllers
         // GET: BlogPost
         public async Task<IActionResult> Index()
         {
-            return View(await _context.BlogPost.ToListAsync());
+            return View(await _context.BlogPost.Include(bp => bp.Tags)
+                .AsNoTracking()
+                .ToListAsync());
+        }
+
+        // POST: AddTag
+        // Todo: Add Authorize
+        [HttpPost]
+        public async Task<IActionResult> AddTag(int postid, string newtag)
+        {
+            var postTag = await _context.BlogPostTag
+                .FirstOrDefaultAsync(m => m.TagName == newtag && m.BlogPostId == postid);
+            if (postTag == null)
+            {
+                var blogPost = await _context.BlogPost
+                    .FirstOrDefaultAsync(bp => bp.Id == postid);
+                _context.Add(new BlogPostTag() { BlogPostId = postid, TagName = newtag, BlogPost = blogPost});
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: DeleteTag
+        // Todo: Add Authorize
+        [HttpPost]
+        public async Task<IActionResult> DeleteTag(int tagid)
+        {
+            var postTag = await _context.BlogPostTag
+                .FirstOrDefaultAsync(m => m.Id == tagid);
+            if (postTag != null)
+            {
+                _context.Remove(postTag);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: BlogPost/Details/5
