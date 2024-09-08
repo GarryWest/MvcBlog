@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Details";
+    ViewData["firstOne"] = "true";
 }
 
 <h1>Details</h1>
@@ -32,13 +33,29 @@
             @Html.DisplayNameFor(model => model.Content)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Content)
+            @Html.Raw(Model.Content)
         </dd>
         <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.Image)
+        </dd>
+        <dt class ="col-sm-2">
+            @Html.DisplayNameFor(model => model.Tags)
+        </dt>
+        <dd class="col-sm-10">
+            @foreach (BlogPostTag tag in Model.Tags)
+            {
+                <span style="display:inline">
+                    @if ((string?)ViewData["firstOne"] != "true")
+                    {
+                        <span style="display:inline; padding-right:1px">,</span>
+                    }
+                    @Html.DisplayFor(tagItem => tag.TagName)
+                </span>
+                ViewData["firstOne"] = "false";
+            }
         </dd>
     </dl>
 </div>

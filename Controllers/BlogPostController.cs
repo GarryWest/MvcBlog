@@ -31,7 +31,7 @@ namespace MvcBlog.Controllers
         // POST: AddTag
         // Todo: Add Authorize
         [HttpPost]
-        public async Task<IActionResult> AddTag(int postid, string newtag)
+        public async Task<IActionResult> AddTag(int postid, string newtag, bool editscreen = false)
         {
             var postTag = await _context.BlogPostTag
                 .FirstOrDefaultAsync(m => m.TagName == newtag && m.BlogPostId == postid);
@@ -42,13 +42,21 @@ namespace MvcBlog.Controllers
                 _context.Add(new BlogPostTag() { BlogPostId = postid, TagName = newtag, BlogPost = blogPost});
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
+            if (editscreen) // return to the edit screen, passing in my post ID
+            {
+                return RedirectToAction(nameof(Edit), new { id = postid });
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            
         }
 
         // POST: DeleteTag
         // Todo: Add Authorize
         [HttpPost]
-        public async Task<IActionResult> DeleteTag(int tagid)
+        public async Task<IActionResult> DeleteTag(int tagid, int? postid)
         {
             var postTag = await _context.BlogPostTag
                 .FirstOrDefaultAsync(m => m.Id == tagid);
@@ -57,7 +65,15 @@ namespace MvcBlog.Controllers
                 _context.Remove(postTag);
                 await _context.SaveChangesAsync();
             }
-            return RedirectToAction(nameof(Index));
+            if (postid == null)
+            {
+                return RedirectToAction(nameof(Index));
+            } 
+            else // We are coming from the Edit Screen
+            {
+                return RedirectToAction(nameof(Edit), new { id = postid });
+            }
+            
         }
 
         // GET: BlogPost/Details/5
@@ -68,7 +84,8 @@ namespace MvcBlog.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.BlogPost
+            var blogPost = await _context.BlogPost.Include(bp => bp.Tags)
+                .AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blogPost == null)
             {
@@ -108,7 +125,9 @@ namespace MvcBlog.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.BlogPost.FindAsync(id);
+            var blogPost = await _context.BlogPost.Include(_bp => _bp.Tags)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(_bp => _bp.Id == id);
             if (blogPost == null)
             {
                 return NotFound();
