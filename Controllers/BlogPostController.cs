@@ -178,7 +178,7 @@ namespace MvcBlog.Controllers
                 return NotFound();
             }
 
-            var blogPost = await _context.BlogPost
+            var blogPost = await _context.BlogPost.AsNoTracking()
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (blogPost == null)
             {
