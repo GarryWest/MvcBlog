@@ -5,46 +5,28 @@
     ViewData["firstOne"] = "true";
 }
 
-<h1>Details</h1>
-
-<div>
-    <h4>BlogPost</h4>
+<div class="container pt-5">
+    <div class="row-cols-12">
+        @Html.Raw($"<img src='{@Url.Content("~/Images/" + Model.Image)}' height='240px' width='480px' >")
+    </div>
+    <div class="row">
+        <h4>@Html.DisplayFor(model => model.Title)</h4>
+    </div>
     <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Author)
-        </dt>
-        <dd class = "col-sm-10">
+    <div class="row">
+        <div class="col-2">
             @Html.DisplayFor(model => model.Author)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreateDate)
-        </dt>
-        <dd class = "col-sm-10">
+        </div>
+        <div class="col-2">
             @Html.DisplayFor(model => model.CreateDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Content)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.Raw(Model.Content)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Image)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Image)
-        </dd>
-        <dt class ="col-sm-2">
-            @Html.DisplayNameFor(model => model.Tags)
-        </dt>
-        <dd class="col-sm-10">
+        </div>
+    </div>
+    <div class="row-cols-12">
+        @Html.Raw(Model.Content)
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <label>Tags:</label>
             @foreach (BlogPostTag tag in Model.Tags)
             {
                 <span style="display:inline">
@@ -56,10 +38,11 @@
                 </span>
                 ViewData["firstOne"] = "false";
             }
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+    <hr />
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </div>

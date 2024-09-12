@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MvcBlog.Data;
 using MvcBlog.Models;
@@ -21,9 +22,30 @@ namespace MvcBlog.Controllers
         }
 
         // GET: BlogPost
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder)
         {
-            return View(await _context.BlogPost.Include(bp => bp.Tags)
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            var posts = from p in _context.BlogPost select p;
+                
+            switch (sortOrder)
+            {
+                case "Date":
+                    posts = posts.OrderBy(p => p.CreateDate);
+                    break;
+                case "date_desc":
+                    posts = posts.OrderByDescending(p => p.CreateDate);
+                    break;
+                case "title_desc":
+                    posts = posts.OrderByDescending(p => p.Title);
+                    break;
+                default: // sort by title ascending
+                    posts = posts.OrderBy(p => p.Title);
+                    break;
+            }
+
+            return View(await posts.Include(bp => bp.Tags)
                 .AsNoTracking()
                 .ToListAsync());
         }
