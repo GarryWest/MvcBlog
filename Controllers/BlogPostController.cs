@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MvcBlog.Data;
+using MvcBlog.Infrastructure;
 using MvcBlog.Models;
 
 namespace MvcBlog.Controllers
@@ -22,10 +23,30 @@ namespace MvcBlog.Controllers
         }
 
         // GET: BlogPost
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(
+            string sortOrder, 
+            string currentFilter,
+            string searchString,
+            int? pageNumber
+            )
         {
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DateSortParm"] = sortOrder == "Title" ? "title_desc" : "Title";
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Date" : "";
+
+            // entering a new searchstring affects the number of pages, so 
+            // reset to page 1
+            // otherwise, persist the saved search string
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // save the current search for if they arrow through the results
             ViewData["CurrentFilter"] = searchString;
 
             var posts = from p in _context.BlogPost select p;
@@ -34,26 +55,29 @@ namespace MvcBlog.Controllers
             {
                 posts = posts.Where(p => p.Title.Contains(searchString));
             }
-                
+
             switch (sortOrder)
             {
                 case "Date":
                     posts = posts.OrderBy(p => p.CreateDate);
                     break;
-                case "date_desc":
-                    posts = posts.OrderByDescending(p => p.CreateDate);
+                case "Title":
+                    posts = posts.OrderBy(p => p.Title);
                     break;
                 case "title_desc":
                     posts = posts.OrderByDescending(p => p.Title);
                     break;
-                default: // sort by title ascending
-                    posts = posts.OrderBy(p => p.Title);
+                default: // sort by date descending
+                    posts = posts.OrderByDescending(p => p.CreateDate);
                     break;
             }
 
-            return View(await posts.Include(bp => bp.Tags)
-                .AsNoTracking()
-                .ToListAsync());
+            int pageSize = 3;
+            IQueryable<BlogPost> postsQuery = posts.Include(bp => bp.Tags)
+                .AsNoTracking();               ;
+            return View(new BlogPostListViewModel() { BlogPosts = await PaginatedList<BlogPost>.CreateAsync(
+                postsQuery, pageNumber ?? 1, pageSize)
+                });
         }
 
         // POST: AddTag
