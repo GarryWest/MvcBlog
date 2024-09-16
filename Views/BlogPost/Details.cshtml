@@ -34,7 +34,9 @@
                     {
                         <span style="display:inline; padding-right:1px">,</span>
                     }
-                    @Html.DisplayFor(tagItem => tag.TagName)
+                    @* @Html.DisplayFor(tagItem => tag.TagName) *@
+                    <a asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-currentTag="@tag.TagName">@tag.TagName</a>
                 </span>
                 ViewData["firstOne"] = "false";
             }

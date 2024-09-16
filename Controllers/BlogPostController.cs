@@ -27,6 +27,8 @@ namespace MvcBlog.Controllers
             string sortOrder, 
             string currentFilter,
             string searchString,
+            string currentTag,
+            string searchTag,
             int? pageNumber
             )
         {
@@ -37,20 +39,22 @@ namespace MvcBlog.Controllers
             // entering a new searchstring affects the number of pages, so 
             // reset to page 1
             // otherwise, persist the saved search string
-            if (searchString != null)
+            if (searchString != null || searchTag != null)
             {
                 pageNumber = 1;
             }
             else
             {
                 searchString = currentFilter;
+                searchTag = currentTag;
             }
 
             // save the current search for if they arrow through the results
             ViewData["CurrentFilter"] = searchString;
+            ViewData["CurrentTag"] = searchTag;
 
             var posts = from p in _context.BlogPost select p;
-
+            
             if (!String.IsNullOrEmpty(searchString))
             {
                 posts = posts.Where(p => p.Title.Contains(searchString));
@@ -74,7 +78,15 @@ namespace MvcBlog.Controllers
 
             int pageSize = 3;
             IQueryable<BlogPost> postsQuery = posts.Include(bp => bp.Tags)
-                .AsNoTracking();               ;
+                .AsNoTracking();
+
+            if (!String.IsNullOrEmpty(searchTag))
+            {
+                var tags = from t in _context.BlogPostTag select t;
+                List<int> tagList = tags.Where(t => t.TagName == searchTag).Select(t => t.BlogPostId).ToList<int>();
+                postsQuery = postsQuery.Where(p => tagList.Contains(p.Id));
+            }
+
             return View(new BlogPostListViewModel() { BlogPosts = await PaginatedList<BlogPost>.CreateAsync(
                 postsQuery, pageNumber ?? 1, pageSize)
                 });
