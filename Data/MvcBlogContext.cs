@@ -14,6 +14,7 @@ namespace MvcBlog.Data
         {
         }
 
-        public DbSet<MvcBlog.Models.BlogPost> BlogPost { get; set; } = default!;
+        public DbSet<BlogPost> BlogPost { get; set; } = default!;
+        public DbSet<BlogPostTag> BlogPostTag { get; set; } = default!;
     }
 }
