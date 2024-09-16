@@ -33,7 +33,14 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <div class="row m-1 p-1">
+                <div class="col-9">
+                    @RenderBody()
+                </div>
+                <div id="tags" class="col-3">
+                    @await Component.InvokeAsync("TagNavigation", new { selectedTag = ViewData["CurrentTag"] })
+                </div>
+            </div>
         </main>
     </div>
 

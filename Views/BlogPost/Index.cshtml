@@ -49,7 +49,7 @@
                 {
                     @* <span style="display:inline">@Html.DisplayFor(tagItem => tag.TagName)&nbsp;</span> *@
                     <a asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                        asp-route-currentTag="@tag.TagName">@tag.TagName</a>
+                        asp-route-searchTag="@tag.TagName">@tag.TagName</a>
                 }
             </div>
         </div>
