@@ -52,7 +52,7 @@ namespace MvcBlog.Controllers
             // save the current search for if they arrow through the results
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentTag"] = searchTag;
-
+            
             var posts = from p in _context.BlogPost select p;
             
             if (!String.IsNullOrEmpty(searchString))
