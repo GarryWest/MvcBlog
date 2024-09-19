@@ -15,12 +15,16 @@ builder.Services.AddDbContext<MvcBlogAuth>(options =>
 
 builder.Services.AddDefaultIdentity<MvcBlogUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcBlogAuth>();
 
-// Demo Git Azure Boards Integration with this comment... and more...
-// Argh.... AB#1, not #AB1 (LOL)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+    options.Conventions.AuthorizePage("/AdminsOnly", "Admin"));
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
+});
 
 var app = builder.Build();
 
