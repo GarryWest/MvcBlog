@@ -30,8 +30,11 @@ jobs:
       - name: install dotnet ef
         run: dotnet tool install -g dotnet-ef --version 8.*
         
-      - name: create migrations bundle
-        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle
+      - name: create migrations bundle MvcBlogContext
+        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle --context MvcBlogContext
+
+      - name: create migrations bundle MvcBlogAuth
+        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle2 --context MvcBlogAuth
         
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
