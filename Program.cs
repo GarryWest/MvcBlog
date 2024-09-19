@@ -9,9 +9,9 @@ using MvcBlog.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcBlogContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBlogContext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
 builder.Services.AddDbContext<MvcBlogAuth>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBlogContext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
 
 builder.Services.AddDefaultIdentity<MvcBlogUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcBlogAuth>();
 
