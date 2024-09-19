@@ -1,16 +1,26 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using MvcBlog.Data;
+using Microsoft.AspNetCore.Identity;
+using MvcBlog.Areas.Identity.Data;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MvcBlogContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBlogContext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+builder.Services.AddDbContext<MvcBlogAuth>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("MvcBlogContext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+
+builder.Services.AddDefaultIdentity<MvcBlogUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcBlogAuth>();
 
 // Demo Git Azure Boards Integration with this comment... and more...
 // Argh.... AB#1, not #AB1 (LOL)
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 var app = builder.Build();
 
@@ -37,5 +47,7 @@ app.MapControllerRoute(
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapRazorPages();
 
 app.Run();
