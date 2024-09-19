@@ -12,7 +12,7 @@ using MvcBlog.Data;
 namespace MvcBlog.Migrations.MvcBlogAuthMigrations
 {
     [DbContext(typeof(MvcBlogAuth))]
-    [Migration("20240919003410_UpdateUser")]
+    [Migration("20240919152222_UpdateUser")]
     partial class UpdateUser
     {
         /// <inheritdoc />
