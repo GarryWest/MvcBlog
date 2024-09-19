@@ -13,6 +13,7 @@ using MvcBlog.Models;
 
 namespace MvcBlog.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class BlogPostController : Controller
     {
         private readonly MvcBlogContext _context;
@@ -22,6 +23,7 @@ namespace MvcBlog.Controllers
             _context = context;
         }
 
+        [AllowAnonymous]
         // GET: BlogPost
         public async Task<IActionResult> Index(
             string sortOrder, 
@@ -140,6 +142,7 @@ namespace MvcBlog.Controllers
             
         }
 
+        [AllowAnonymous]
         // GET: BlogPost/Details/5
         public async Task<IActionResult> Details(int? id)
         {
