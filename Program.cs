@@ -45,6 +45,11 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "blog",
+    pattern: "Blog",
+    defaults: new { controller = "BlogPost", action = "Index" });
+
+app.MapControllerRoute(
+    name: "blogpost",
     pattern: "BlogPost/Index/{searchtag?}/{pagenumber?}",
     defaults: new { controller = "BlogPost", action = "Index" });
 
