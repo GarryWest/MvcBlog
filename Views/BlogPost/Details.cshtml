@@ -5,9 +5,11 @@
     ViewData["firstOne"] = "true";
 }
 
-<div class="container pt-5">
+<div class="container pt-5 overflow-auto" style="height:480px">
     <div class="row-cols-12">
-        @Html.Raw($"<img class='img-fluid' src='{@Url.Content("~/Images/" + Model.Image)}' height='240px' width='480px' >")
+        @if (!string.IsNullOrEmpty(Model.Image)){
+            @Html.Raw($"<img class='img-fluid' src='{@Url.Content("~/Images/" + Model.Image)}' height='240px' width='480px' >");
+        }
     </div>
     <div class="row">
         <h4>@Html.DisplayFor(model => model.Title)</h4>

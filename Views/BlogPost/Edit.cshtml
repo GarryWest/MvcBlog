@@ -2,6 +2,7 @@
 
 @{
     ViewData["Title"] = "Edit";
+    Layout = "_LayoutSansTags";
 }
 <div class="container-fluid">
     <h1>Edit</h1>
@@ -9,7 +10,7 @@
     <h4>BlogPost</h4>
     <hr />
 </div>
-<div class="container pt-5">
+<div class="container pt-5 overflow-auto" style="height:480px">
     <div class="row">
         <div class="col-md-4">
             <form asp-action="Edit">
@@ -74,11 +75,13 @@
             }
         </div>
     </div>
+    <hr />
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
