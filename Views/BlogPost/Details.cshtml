@@ -7,7 +7,7 @@
 
 <div class="container pt-5">
     <div class="row-cols-12">
-        @Html.Raw($"<img src='{@Url.Content("~/Images/" + Model.Image)}' height='240px' width='480px' >")
+        @Html.Raw($"<img class='img-fluid' src='{@Url.Content("~/Images/" + Model.Image)}' height='240px' width='480px' >")
     </div>
     <div class="row">
         <h4>@Html.DisplayFor(model => model.Title)</h4>

@@ -1,17 +1,19 @@
 ﻿@model IEnumerable<string>
-<h2 class="text-decoration-underline">Tags</h2>
+<div class="container-fluid">
+    <h2 class="text-decoration-underline">Tags</h2>
 
-<a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="BlogPost" asp-route-searchtag="">
-    All
-</a>
-
-@foreach (string tag in Model)
-{
-    <a class="btn btn-block @(tag == ViewBag.SelectedTag ? "btn-primary" : "btn-outline-secondary") "
-       asp-action="Index"
-       asp-controller="BlogPost"
-       asp-route-searchtag="@tag"
-       asp-route-pagenumber="1">
-        @tag
+    <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="BlogPost" asp-route-searchtag="">
+        All
     </a>
-}
+
+    @foreach (string tag in Model)
+    {
+        <a class="btn btn-block @(tag == ViewBag.SelectedTag ? "btn-primary" : "btn-outline-secondary") "
+           asp-action="Index"
+           asp-controller="BlogPost"
+           asp-route-searchtag="@tag"
+           asp-route-pagenumber="1">
+            @tag
+        </a>
+    }
+</div>
