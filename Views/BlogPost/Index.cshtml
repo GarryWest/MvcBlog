@@ -20,7 +20,10 @@
             <p>
                 Find by title: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
                 <input type="submit" value="Search" class="btn btn-default" /> |
-                <a asp-action="Index" asp-route-searchtag="">Back to Full List</a>
+                <a asp-area="" asp-controller="BlogPost" asp-action="Index"
+                   asp-route-currentFilter=""
+                   asp-route-currentTag=""
+                   asp-route-searchTag="">Back to Full List</a>
             </p>
         </div>
     </form>
