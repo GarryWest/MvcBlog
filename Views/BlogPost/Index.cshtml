@@ -56,7 +56,7 @@
         <div class="row">
             <div class="col-12">
                 <label>Tags:</label>
-                @foreach (BlogPostTag tag in item.Tags)
+                @foreach (BlogPostTag tag in item.Tags.OrderBy(t => t.TagName))
                 {
                     @* <span style="display:inline">@Html.DisplayFor(tagItem => tag.TagName)&nbsp;</span> *@
                     <a asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]"

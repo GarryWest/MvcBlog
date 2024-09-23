@@ -79,7 +79,8 @@ namespace MvcBlog.Controllers
             }
 
             int pageSize = 3;
-            IQueryable<BlogPost> postsQuery = posts.Include(bp => bp.Tags)
+            IQueryable<BlogPost> postsQuery = posts
+                .Include(bp => bp.Tags)
                 .AsNoTracking();
 
             if (!String.IsNullOrEmpty(searchTag))
