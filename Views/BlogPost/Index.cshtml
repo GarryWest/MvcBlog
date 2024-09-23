@@ -13,7 +13,9 @@
         }
     }
     
-    <form asp-action="Index" method="get">
+    <form asp-action="Index"
+          asp-route-sortorder="@ViewData["TitleSortParm"]"
+        method="get">
         <div class="form-actions no-color">
             <p>
                 Find by title: <input type="text" name="SearchString" value="@ViewData["CurrentFilter"]" />
@@ -55,7 +57,8 @@
                 {
                     @* <span style="display:inline">@Html.DisplayFor(tagItem => tag.TagName)&nbsp;</span> *@
                     <a asp-action="Index" asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                        asp-route-searchTag="@tag.TagName">@tag.TagName</a>
+                       asp-route-currentTag="@tag.TagName"
+                    >@tag.TagName</a>
                 }
             </div>
         </div>

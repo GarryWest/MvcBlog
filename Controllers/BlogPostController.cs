@@ -35,8 +35,8 @@ namespace MvcBlog.Controllers
             )
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["DateSortParm"] = sortOrder == "Title" ? "title_desc" : "Title";
-            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Date" : "";
+            ViewData["TitleSortParm"] = sortOrder == "Title" ? "title_desc" : "Title";
+            ViewData["DateSortParm"] = String.IsNullOrEmpty(sortOrder) ? "Date" : "";
 
             // entering a new searchstring affects the number of pages, so 
             // reset to page 1
