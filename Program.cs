@@ -49,6 +49,16 @@ app.MapControllerRoute(
     defaults: new { controller = "BlogPost", action = "Index" });
 
 app.MapControllerRoute(
+    name: "blogimage",
+    pattern: "blog.png",
+    defaults: new { controller = "Home", action = "BlogImage" });
+
+app.MapControllerRoute(
+    name: "garryimage",
+    pattern: "garry.jpg",
+    defaults: new { controller = "Home", action = "GarryImage" });
+
+app.MapControllerRoute(
     name: "blogpost",
     pattern: "BlogPost/Index/{currenttag?}/{pagenumber?}",
     defaults: new { controller = "BlogPost", action = "Index" });
