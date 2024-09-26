@@ -279,7 +279,15 @@
                 <div class="row">
                     <div class="col-lg-4 mx-auto mb-5">
                         <div class="card h-100 shadow-lg border-0 bg-light">
-                            <img class="card-img-top" src="images/project1.png" alt="Project 1">
+                            
+                            
+                            <a asp-area="" asp-controller="BlogPost" asp-action="Index"
+                               asp-route-currentFilter=""
+                               asp-route-currentTag=""
+                               asp-route-searchTag=""><img class="card-img-top" src="images/project1.png" alt="Project 1" />
+
+
+
                             <div class="card-body p-4">
                                 <h5 class="card-title mb-3">MVC Blog</h5>
                                 <div class="mb-2">
@@ -295,6 +303,7 @@
                                     Intended to demonstrate building an MVC app from start to finish, deployed on my Azure tenant.
                                 </p>
                             </div>
+                            </a>
                             <div class="card-footer bg-transparent mb-3">
                                 <a class="btn btn-outline-primary btn-sm text-uppercase"
                                    href="https://github.com/GarryWest/MvcBlog"
