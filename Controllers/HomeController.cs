@@ -28,5 +28,15 @@ namespace MvcBlog.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+        public ActionResult GarryImage()
+        {
+            return File("/Images/RetrieverHeadshot.jfif", "image/jpg", "garry.jpg");
+        }
+
+        public ActionResult BlogImage()
+        {
+            return File("/Images/project1.png", "image/png", "blog.png");
+        }
     }
 }
