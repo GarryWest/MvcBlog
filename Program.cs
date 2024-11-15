@@ -4,14 +4,23 @@ using Microsoft.Extensions.FileProviders;
 using MvcBlog.Data;
 using Microsoft.AspNetCore.Identity;
 using MvcBlog.Areas.Identity.Data;
+using Microsoft.Extensions.Azure;
+using Azure.Identity;
 
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add a key vault, magically pulls in the connection string?
+//if (builder.Environment.IsDevelopment())
+//{
+//    builder.Configuration.AddAzureKeyVault(new Uri($"https://{builder.Configuration["KeyVaultName"]}.vault.azure.net/")
+//        , new DefaultAzureCredential());
+//}
 builder.Services.AddDbContext<MvcBlogContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("mvcblogcontext") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
 builder.Services.AddDbContext<MvcBlogAuth>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'MvcBlogContext' not found.")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("mvcblogcontext") ?? throw new InvalidOperationException("Connection string 'MvcBlogAuth' not found.")));
 
 builder.Services.AddDefaultIdentity<MvcBlogUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcBlogAuth>();
 
@@ -25,6 +34,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
 });
+
 
 var app = builder.Build();
 
