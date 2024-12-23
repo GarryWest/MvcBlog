@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using MvcBlog.Areas.Identity.Data;
 using Microsoft.Extensions.Azure;
 using Azure.Identity;
+using Microsoft.Data.SqlClient;
 
 
 
@@ -30,10 +31,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(options =>
     options.Conventions.AuthorizePage("/AdminsOnly", "Admin"));
 
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
-});
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("Admin", policy => policy.RequireClaim("IsAdmin"));
 
 
 var app = builder.Build();
