@@ -56,3 +56,37 @@
         <a asp-action="Index">Back to List</a>
     </div>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const images = document.querySelectorAll('img');
+        images.forEach(image => {
+            image.addEventListener('click', function () {
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+                modal.style.display = 'flex';
+                modal.style.alignItems = 'center';
+                modal.style.justifyContent = 'center';
+                modal.style.zIndex = '1000';
+
+                const modalImage = document.createElement('img');
+                modalImage.src = this.src;
+                modalImage.style.maxWidth = '90%';
+                modalImage.style.maxHeight = '90%';
+                modalImage.style.border = '5px solid white';
+
+                modal.appendChild(modalImage);
+                document.body.appendChild(modal);
+
+                modal.addEventListener('click', function () {
+                    document.body.removeChild(modal);
+                });
+            });
+        });
+    });
+</script>
+

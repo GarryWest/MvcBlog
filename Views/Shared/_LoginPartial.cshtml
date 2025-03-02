@@ -4,7 +4,7 @@
 @inject SignInManager<MvcBlogUser> SignInManager
 @inject UserManager<MvcBlogUser> UserManager
 
-<ul class="navbar-nav">
+<ul class="container">
 @if (SignInManager.IsSignedIn(User))
 {
         MvcBlogUser? user = await UserManager.GetUserAsync(User);
