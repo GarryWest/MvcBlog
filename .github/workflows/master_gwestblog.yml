@@ -12,6 +12,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read #This is required for actions/checkout
 
     steps:
       - uses: actions/checkout@v4
@@ -19,7 +21,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '8.0'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -27,15 +29,6 @@ jobs:
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
-      - name: install dotnet ef
-        run: dotnet tool install -g dotnet-ef --version 8.*
-        
-      - name: create migrations bundle MvcBlogContext
-        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle --context MvcBlogContext
-
-      - name: create migrations bundle MvcBlogAuth
-        run: dotnet ef migrations bundle --runtime linux-x64 -o ${{env.DOTNET_ROOT}}/myapp/migrationsbundle2 --context MvcBlogAuth
-        
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
@@ -50,6 +43,7 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
       id-token: write #This is required for requesting the JWT
+      contents: read #This is required for actions/checkout
 
     steps:
       - name: Download artifact from build job
@@ -60,9 +54,9 @@ jobs:
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_554FA2C740154B79BC2BAC810817EFB7 }}
-          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8581C13EDE41414BA656BD49E90EA8DD }}
-          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0EED078E715E4F6E880B5EA3FEEE5C32 }}
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_5B54FAA572A9426BAB2159BD717CBDF7 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C619F52E6EC64BA99F553D80A08D3FF3 }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_F008F629F33843B3B01962DEB528321F }}
 
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
