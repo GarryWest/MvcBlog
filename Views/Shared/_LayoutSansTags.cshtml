@@ -23,6 +23,7 @@
     <header>
         <!-- Nav -->
         <nav id="nav">
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
             <ul class="container">
                 <li><a href="/">Home</a></li>
                 <li><a href="/#projects">Projects</a></li>
@@ -54,6 +55,13 @@
 
     <!-- Custom JS -->
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        // Toggle the menu when the hamburger icon is clicked
+        function toggleMenu() {
+            const navUl = document.querySelector("nav ul");
+            navUl.classList.toggle("active");
+        }
+    </script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>

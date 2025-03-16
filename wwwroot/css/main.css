@@ -2037,14 +2037,14 @@ input, select, textarea {
 
 	#nav {
 		background-color: #282828;
-		text-align: center;
+		text-align: left;
 		position: fixed;
 		left: 0;
 		top: 0;
 		width: 100%;
 		z-index: 10000;
 		cursor: default;
-		height: 3.5em;
+		height: 7em;
 		line-height: 3.5em;
 	}
 
@@ -2174,6 +2174,12 @@ input, select, textarea {
 			#copyright a:hover {
 				color: #777;
 			}
+
+/* mmm... hamburger */
+/* Default: hide the hamburger icon on larger screens */
+.hamburger {
+	display: none;
+}
 
 /* Large */
 
@@ -2403,6 +2409,25 @@ input, select, textarea {
 						background-color: transparent;
 					}
 
+		nav ul {
+			display: none; /* Hide menu by default */
+			flex-direction: column;
+			width: 100%;
+			background-color: #333;
+		}
+
+		nav ul.active {
+			display: flex; /* Show menu when active */
+		}
+
+		.hamburger {
+			display: block;
+			cursor: pointer;
+			color: white;
+			padding: 15px;
+			width: 100%;
+		}
+				
 		/* Articles */
 
 			#top {
