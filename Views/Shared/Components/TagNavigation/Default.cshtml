@@ -6,7 +6,7 @@
     
     <!-- Hamburger Icon -->
     <div class="hamburger" onclick="toggleMenu(event)" style="color:black"><span class="fw-bold text-decoration-underline">Tags</span>☰</div>
-        <ul class="container list-inline" @(Context.Request.Headers["User-Agent"].ToString().Contains("Mobile") ? "style=background-color:white" : "") >
+        <ul class="container list-inline" @(ViewBag.Layout == "mobile" ? "style=background-color:white" : "") >
         <li>
                 <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="BlogPost" asp-route-searchtag=""
                    asp-route-currenttag="">

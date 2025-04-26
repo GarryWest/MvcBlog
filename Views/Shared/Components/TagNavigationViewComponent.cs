@@ -13,9 +13,10 @@ namespace MvcBlog.Views.Shared.Components
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(string? selectedTag)
+        public async Task<IViewComponentResult> InvokeAsync(string? selectedTag, string? layout)
         {
             ViewBag.SelectedTag = selectedTag;
+            ViewBag.Layout = layout;
             List<string?> items = await GetItemsAsync();
             return View(items);
         }

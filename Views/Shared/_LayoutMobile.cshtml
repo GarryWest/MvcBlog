@@ -42,7 +42,7 @@
         <main role="main" class="pb-3">
             <div class="row m-1">
                 <div id="tags" class="col-12">
-                    @await Component.InvokeAsync("TagNavigation", new { selectedTag = ViewData["CurrentTag"] })
+                    @await Component.InvokeAsync("TagNavigation", new { selectedTag = ViewData["CurrentTag"], Layout = "mobile" })
                 </div>
             </<div>
             <div class="row m-1">
