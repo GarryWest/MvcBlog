@@ -1,21 +1,28 @@
 ﻿@model IEnumerable<string>
+<nav>
 <div class="container-fluid">
-    <h2 class="text-decoration-underline">Tags</h2>
+    
 
-    <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="BlogPost" asp-route-searchtag=""
-        asp-route-currenttag=""
-    >
-        All
-    </a>
-
+    
+    <!-- Hamburger Icon -->
+    <div class="hamburger" onclick="toggleMenu(event)" style="color:black"><span class="fw-bold text-decoration-underline">Tags</span>☰</div>
+        <ul class="container list-inline" @(ViewBag.Layout == "mobile" ? "style=background-color:white" : "") >
+        <li>
+                <a class="btn btn-block btn-outline-secondary" asp-action="Index" asp-controller="BlogPost" asp-route-searchtag=""
+                   asp-route-currenttag="">
+                    All
+                </a>
+        </li>
     @foreach (string tag in Model)
     {
+        <li>
         <a class="btn btn-block @(tag == ViewBag.SelectedTag ? "btn-primary" : "btn-outline-secondary") "
            asp-action="Index"
            asp-controller="BlogPost"
            asp-route-currentTag="@tag"
-           asp-route-pagenumber="1">
-            @tag
-        </a>
+           asp-route-pagenumber="1">@tag</a>
+            </li>
     }
+    </ul>
 </div>
+</nav>

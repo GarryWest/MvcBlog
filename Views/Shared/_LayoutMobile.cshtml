@@ -40,12 +40,14 @@
     </header>
     <div class="container main">
         <main role="main" class="pb-3">
-            <div class="row m-1 p-1">
-                <div class="col-9 col-sm-12">
-                    @RenderBody()
+            <div class="row m-1">
+                <div id="tags" class="col-12">
+                    @await Component.InvokeAsync("TagNavigation", new { selectedTag = ViewData["CurrentTag"], Layout = "mobile" })
                 </div>
-                <div id="tags" class="col-3">
-                    @await Component.InvokeAsync("TagNavigation", new { selectedTag = ViewData["CurrentTag"] })
+            </<div>
+            <div class="row m-1">
+                <div class="col-12">
+                    @RenderBody()
                 </div>
             </div>
         </main>
