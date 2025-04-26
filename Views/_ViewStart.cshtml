@@ -1,3 +1,10 @@
 ﻿@{
-    Layout = "_Layout";
+    if (Context.Request.Headers["User-Agent"].ToString().Contains("Mobile"))
+    {
+        Layout = "_LayoutMobile";
+    }
+    else
+    {
+        Layout = "_Layout";
+    }
 }

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using MvcBlog.Data;
 using MvcBlog.Infrastructure;
@@ -26,7 +20,7 @@ namespace MvcBlog.Controllers
         [AllowAnonymous]
         // GET: BlogPost
         public async Task<IActionResult> Index(
-            string sortOrder, 
+            string sortOrder,
             string currentFilter,
             string searchString,
             string currentTag,
@@ -54,9 +48,9 @@ namespace MvcBlog.Controllers
             // save the current search for if they arrow through the results
             ViewData["CurrentFilter"] = searchString;
             ViewData["CurrentTag"] = searchTag;
-            
+
             var posts = from p in _context.BlogPost select p;
-            
+
             if (!String.IsNullOrEmpty(searchString))
             {
                 posts = posts.Where(p => p.Title.Contains(searchString));
@@ -90,9 +84,11 @@ namespace MvcBlog.Controllers
                 postsQuery = postsQuery.Where(p => tagList.Contains(p.Id));
             }
 
-            return View(new BlogPostListViewModel() { BlogPosts = await PaginatedList<BlogPost>.CreateAsync(
+            return View(new BlogPostListViewModel()
+            {
+                BlogPosts = await PaginatedList<BlogPost>.CreateAsync(
                 postsQuery, pageNumber ?? 1, pageSize)
-                });
+            });
         }
 
         // POST: AddTag
@@ -106,7 +102,7 @@ namespace MvcBlog.Controllers
             {
                 var blogPost = await _context.BlogPost
                     .FirstOrDefaultAsync(bp => bp.Id == postid);
-                _context.Add(new BlogPostTag() { BlogPostId = postid, TagName = newtag, BlogPost = blogPost});
+                _context.Add(new BlogPostTag() { BlogPostId = postid, TagName = newtag, BlogPost = blogPost });
                 await _context.SaveChangesAsync();
             }
             if (editscreen) // return to the edit screen, passing in my post ID
@@ -117,7 +113,7 @@ namespace MvcBlog.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
-            
+
         }
 
         // POST: DeleteTag
@@ -135,12 +131,12 @@ namespace MvcBlog.Controllers
             if (postid == null)
             {
                 return RedirectToAction(nameof(Index));
-            } 
+            }
             else // We are coming from the Edit Screen
             {
                 return RedirectToAction(nameof(Edit), new { id = postid });
             }
-            
+
         }
 
         [AllowAnonymous]

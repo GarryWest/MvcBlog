@@ -1,12 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.FileProviders;
-using MvcBlog.Data;
-using Microsoft.AspNetCore.Identity;
 using MvcBlog.Areas.Identity.Data;
-using Microsoft.Extensions.Azure;
-using Azure.Identity;
-using Microsoft.Data.SqlClient;
+using MvcBlog.Data;
 
 
 
@@ -24,7 +18,6 @@ builder.Services.AddDbContext<MvcBlogAuth>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING") ?? throw new InvalidOperationException("Connection string 'MvcBlogAuth' not found.")));
 
 builder.Services.AddDefaultIdentity<MvcBlogUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<MvcBlogAuth>();
-
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
